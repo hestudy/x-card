@@ -1,12 +1,9 @@
-import { Client } from "@planetscale/database";
-import { drizzle } from "drizzle-orm/planetscale-serverless";
+import { drizzle } from "drizzle-orm/neon-http";
+import { neon, neonConfig } from "@neondatabase/serverless";
+
+neonConfig.fetchConnectionCache = true;
 
 import { env } from "~/env.mjs";
 import * as schema from "./schema";
 
-export const db = drizzle(
-  new Client({
-    url: env.DATABASE_URL,
-  }).connection(),
-  { schema }
-);
+export const db = drizzle(neon(env.DATABASE_URL!), { schema });
